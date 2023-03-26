@@ -1,4 +1,6 @@
-#!/bin/bash
+# SSH client configuration to use the private key ~/.ssh/holberton
+# SSH client configuration to refuse to authenticate using a password
+
 Host<server_address>
         IdentityFile ~/.ssh/school 
         PasswordAuthentication no
