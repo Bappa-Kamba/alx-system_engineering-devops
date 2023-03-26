@@ -1,0 +1,4 @@
+#!/bin/bash
+Host<server_address>
+        IdentityFile ~/.ssh/school 
+        PasswordAuthentication no
