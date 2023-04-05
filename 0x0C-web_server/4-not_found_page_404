@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Install nginx
+apt-get update
+apt-get -y install nginx
+
+# Configure nginx
+echo "server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+        index index.html;
+
+        server_name _;
+
+        error_page 404 /404.html;
+        location = /404.html {
+                internal;
+                return 404 'Ceci n'est pas une page';
+        }
+
+        location /redirect_me {
+                return 301 http://www.example.com/;
+        }
+
+        location / {
+                return 200 'Hello World!';
+        }
+}" > /etc/nginx/sites-available/default
+
+# Restart nginx
+service nginx restart
