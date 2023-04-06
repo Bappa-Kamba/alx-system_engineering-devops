@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 # Install nginx
-apt-get update
-apt-get -y install nginx
+sudo apt-get update
+sudo apt-get -y install nginx
 
 # Configure nginx
-echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
 echo "server {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -14,10 +13,16 @@ echo "server {
 
         server_name _;
 
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
         location /redirect_me {
-                return 301 http://www.google.com/;
+                return 301 http://www.google.com
         }
 }" > /etc/nginx/sites-available/default
 
-# Restart nginx
-service nginx restart
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Start nginx
+sudo service nginx Start

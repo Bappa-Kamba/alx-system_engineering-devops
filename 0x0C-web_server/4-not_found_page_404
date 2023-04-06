@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Install nginx
-apt-get update
-apt-get -y install nginx
+sudo apt-get update
+sudo apt-get -y install nginx
 
 # Configure nginx
 echo "server {
@@ -13,19 +13,21 @@ echo "server {
 
         server_name _;
 
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        location /redirect_me {
+                return 301 http://www.google.com
+        }
+
         error_page 404 /404_not_found.html;
         location = /404_not_found.html {
                 internal;
         }
-
-        location /redirect_me {
-                return 301 http://www.google.com/;
-        }
-
-        location / {
-                try_files $uri $uri/ =404;
-        }
 }" > /etc/nginx/sites-available/default
 
-# Restart nginx
-service nginx restart
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Start nginx
+sudo service nginx Start
