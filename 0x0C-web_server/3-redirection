@@ -20,8 +20,7 @@ echo "server {
         location /redirect_me {
                 return 301 http://www.google.com;
         }
-}" > /etc/nginx/sites-available/default
-
+}" > /etc/nginx/sites-available/default &&
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Start nginx
