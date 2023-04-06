@@ -30,5 +30,5 @@ echo "server {
 }" > /etc/nginx/sites-available/default && 
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# Start nginx
-sudo service nginx start
+# Restart nginx
+sudo service nginx restart
