@@ -25,4 +25,4 @@ echo "server {
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Start nginx
-sudo service nginx Start
+sudo service nginx start
