@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Installing apache server and serving a page
+# with the string "Hello Holberton"
+apt-get update
+apt-get install -y apache2
+
+# Create a new file named index.html in the default document root directory of Apache
+echo "Hello Holberton" > /var/www/html/index.html
+
+# restart the apache server
+service apache2 restart
