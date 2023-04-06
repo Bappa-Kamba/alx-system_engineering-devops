@@ -7,7 +7,6 @@ sudo apt-get -y install nginx
 echo "server {
         listen 80 default_server;
         listen [::]:80 default_server;
-
         root /var/www/html;
         index index.html;
 

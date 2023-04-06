@@ -3,13 +3,13 @@
 sudo apt-get update
 sudo apt-get -y install nginx
 
-# Configure nginx
-echo "server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+ADD301_REDIRECT="\\\tlocation /redirect_me {\n\t\t return 301 https://google.com;\n\t}\n"
+ADD404_NOTFOUND="error_page 404 /custom_404.html;\n\\tlocation = /custom_404.html {\n\t\t root /usr/share/nginx/html;\n\t\tinternal;\n\t}\n"
+PATTERN="#error_page 404 /404.html;"
 
-        root /var/www/html;
-        index index.html;
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo service nginx start
 
         server_name _;
 
