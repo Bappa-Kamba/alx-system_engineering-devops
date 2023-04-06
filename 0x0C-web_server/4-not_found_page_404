@@ -16,6 +16,7 @@ echo "server {
         error_page 404 /404_not_found.html;
         location = /404_not_found.html {
                 internal;
+                root /usr/share/nginx/html;
         }
 
         location / {
