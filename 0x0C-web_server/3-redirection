@@ -1,23 +1,10 @@
 #!/usr/bin/env bash
-# Install nginx
-apt-get update
-apt-get -y install nginx
-
 # Configure nginx
-echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
-echo "server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+ADD301_REDIRECT="\\\tlocation /redirect_me {\n\t\t return 301 https://google.com;\n\t}\n"
 
-        root /var/www/html;
-        index index.html;
-
-        server_name _;
-
-        location /redirect_me {
-                return 301 http://www.google.com/;
-        }
-}" > /etc/nginx/sites-available/default
-
-# Restart nginx
-service nginx restart
+sudo apt-get update
+sudo apt-get -y install nginx
+#sudo service nginx start
+echo "Holberton School" | sudo tee /usr/share/nginx/html/index.html
+sudo sed -i "30i $ADD301_REDIRECT" /etc/nginx/sites-available/default #add at line 30
+sudo service nginx start
