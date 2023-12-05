@@ -1,20 +1,45 @@
-#!/usr/bin/env bash
-# Configure server with: HAproxy version 1.5 or greater
-# Distributes request using roundrobin; sends traffic to servers: web-01 and web-02
+#!/usr/bin/bash
+# Install HAProxy
+sudo apt update
+sudo apt install -y haproxy
 
-CFG="\\\nlisten appname 0.0.0.0:80\n\tmode http\n\tbalance roundrobin\n\toption httpclose\n\toption forwardfor\n\tserver 127318-web-01 52.3.253.65 check\n\tserver 127318-web-02 100.26.216.230 check\n"
+# Backup the original HAProxy configuration file
+sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 
-sudo apt-get update
-sudo apt-get -y install nginx
-sudo apt-get install -y haproxy=1.5\*
+# Create a new HAProxy configuration file
+sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
 
-# Make sure HAproxy can be managed via an init script
-sudo sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/haproxy
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
 
-# Backup original config file before attempt modifications
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
+frontend http_front
+    bind *:80
+    default_backend http_back
 
-# Configure to include roundrobin and two servers
-sudo sed -i "\$a $CFG" /etc/haproxy/haproxy.cfg
+backend http_back
+    balance roundrobin
+    server web-01 127318-web-01:80 check
+    server web-02 127318-web-02:80 check
+EOF
 
-sudo service haproxy start
+# Restart HAProxy service to apply changes
+sudo systemctl restart haproxy
+
+# Enable HAProxy service to start on boot
+sudo systemctl enable haproxy
+
