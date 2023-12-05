@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 # Custom header to be added
 custom_header="add_header X-Served-By \$hostname;"
 
