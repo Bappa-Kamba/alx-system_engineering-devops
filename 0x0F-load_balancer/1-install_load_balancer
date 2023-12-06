@@ -37,8 +37,8 @@ backend http_back
     server web-02 100.25.179.167:80 check
 EOF
 
-# Restart HAProxy service to apply changes
-sudo systemctl restart haproxy
+# Start HAProxy service to apply changes
+sudo systemctl start haproxy
 
 # Enable HAProxy service to start on boot
 sudo systemctl enable haproxy
