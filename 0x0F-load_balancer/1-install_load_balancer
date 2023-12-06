@@ -36,7 +36,8 @@ backend http_back
     server web-01 52.3.253.65:80 check
     server web-02 100.25.179.167:80 check
 EOF
-
+echo "web-01"
+echo "web-02"
 # Start HAProxy service to apply changes
 sudo systemctl start haproxy
 
