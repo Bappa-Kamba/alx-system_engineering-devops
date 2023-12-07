@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Function to display DNS records for a domain and subdomain
+
+get_dns_record() {
+    domain="$1"
+    subdomain="$2"
+
+    query=$(dig "$subdomain.$domain")
+    record_type=$(echo "$query" | awk '{if ($3 == "IN") print $4}')
+    destination=$(echo "$query" | awk '{if ($3 == "IN") print $5}')
+
+    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+}
+
+if [ $# -eq 1 ]; then
+    get_dns_record "$1" "www"
+    get_dns_record "$1" "lb-01"
+    get_dns_record "$1" "web-01"
+    get_dns_record "$1" "web-02"
+elif [ $# -eq 2 ]; then
+    get_dns_record "$1" "$2"
+else
+    echo "Usage: $0 <domain> [<subdomain>]"
+    exit 1
+fi
+
