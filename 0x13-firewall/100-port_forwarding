@@ -1,0 +1,4 @@
+#!/usr/bin/usr bash
+# Forawrds port 8080 to port 80 on TCP
+
+sudo iptables-persistent -t nat -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
