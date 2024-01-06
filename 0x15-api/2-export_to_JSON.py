@@ -17,7 +17,7 @@ from requests import get
 from sys import argv
 
 DATA_ENDPOINT = "https://jsonplaceholder.typicode.com"
-EMPLOYEE_ID = argv[1]
+EMPLOYEE_ID = argv[1] if argv[1] else ""
 TASK_TITLES = []
 
 
