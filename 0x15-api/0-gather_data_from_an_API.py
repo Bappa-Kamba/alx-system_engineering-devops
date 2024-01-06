@@ -26,7 +26,7 @@ def get_user():
     """
     response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}")
     data = response.json()
-    user_name = data['name']
+    user_name = data.get('name')
     return user_name
 
 
@@ -45,9 +45,9 @@ def get_todos():
     NUMBER_OF_DONE_TASKS = 0
     for todo in data:
         TOTAL_NUMBER_OF_TASKS += 1
-        if todo['completed']:
+        if todo.get('completed') is True:
             NUMBER_OF_DONE_TASKS += 1
-            TASK_TITLES.append(todo['title'])
+            TASK_TITLES.append(todo.get('title'))
     print(
         f"Employee {get_user()} is done with tasks(\
 {NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):"

@@ -15,7 +15,7 @@
         python3 3-dictionary_of_list_of_dictionaries.py
 """
 import json
-from requests import get
+import requests
 
 DATA_ENDPOINT = "https://jsonplaceholder.typicode.com"
 TASK_TITLES = []
@@ -30,12 +30,12 @@ def get_users():
         None
     """
     global TASK_TITLES
-    response = get(url=f"{DATA_ENDPOINT}/users")
+    response = requests.get(url=f"{DATA_ENDPOINT}/users")
     response.raise_for_status()
     data = response.json()
     for user in data:
-        id = user['id']
-        username = user['username']
+        id = user.get('id')
+        username = user.get('username')
         TASKS[f"{id}"] = get_todos(id, username)
         TASK_TITLES = []
 
@@ -56,12 +56,12 @@ def get_todos(id, username):
             - task (str): The title of the task.
             - completed (bool): Indicates whether the task is completed or not
     """
-    response = get(url=f"{DATA_ENDPOINT}/users/{id}/todos")
+    response = requests.get(url=f"{DATA_ENDPOINT}/users/{id}/todos")
     data = response.json()
     for todo in data:
         TASK_TITLES.append({"username": username,
-                            "task": todo['title'],
-                            "completed": todo['completed']
+                            "task": todo.get('title'),
+                            "completed": todo.get('completed')
                             })
     return TASK_TITLES
 

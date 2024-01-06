@@ -31,7 +31,7 @@ def get_username():
     """
     response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}")
     data = response.json()
-    username = data['username']
+    username = data.get('username')
     return username
 
 
@@ -44,8 +44,8 @@ def get_todos():
     data = response.json()
     username = get_username()
     for todo in data:
-        TASK_TITLES.append({"task": todo['title'],
-                            "completed": todo['completed'],
+        TASK_TITLES.append({"task": todo.get('title'),
+                            "completed": todo.get('completed'),
                             "username": username})
     with open(f"{EMPLOYEE_ID}.json", 'w') as jsonfile:
         json.dump({EMPLOYEE_ID: TASK_TITLES}, jsonfile)

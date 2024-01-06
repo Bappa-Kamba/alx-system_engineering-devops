@@ -27,7 +27,7 @@ def get_username():
     """
     response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}")
     data = response.json()
-    username = data['username']
+    username = data.get('username')
     return username
 
 
@@ -41,7 +41,7 @@ def get_todos():
     username = get_username()
     for todo in data:
         TASK_TITLES.append([EMPLOYEE_ID, username,
-                            todo['completed'], todo['title']])
+                            todo.get('completed'), todo.get('title')])
     with open(f"{EMPLOYEE_ID}.csv", 'w') as csvfile:
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         writer.writerows(TASK_TITLES)
