@@ -1,7 +1,18 @@
 #!/usr/bin/python3
 """
-    Script to gather TODO's of an employee using employee ID
+This script gathers TODO's of an employee using their employee ID and exports
+the data to a JSON file.
+
+The script makes use of the json and requests modules to interact with a
+REST API. It retrieves the username of the employee using their ID and then
+queries the API to get the employee's todo list.
+
+The script then creates a JSON file named after the
+employee ID and writes the todo list data to it.
+
+Usage: python3 2-export_to_JSON.py [employee_id]
 """
+
 import json
 from requests import get
 from sys import argv
@@ -13,7 +24,10 @@ TASK_TITLES = []
 
 def get_username():
     """
-        gets the details of a user
+    Retrieves the username of the employee using their ID.
+
+    Returns:
+        str: The username of the employee.
     """
     response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}")
     data = response.json()
@@ -23,7 +37,8 @@ def get_username():
 
 def get_todos():
     """
-        queries the endpoint for user's todo list
+    Queries the API to get the employee's todo list and exports
+    it to a JSON file.
     """
     response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}/todos")
     data = response.json()
