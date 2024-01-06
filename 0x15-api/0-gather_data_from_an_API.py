@@ -12,7 +12,6 @@ from requests import get
 from sys import argv
 
 DATA_ENDPOINT = "https://jsonplaceholder.typicode.com"
-EMPLOYEE_ID = argv[1] if argv[1] else ""
 TASK_TITLES = []
 
 
@@ -23,7 +22,8 @@ def get_user():
     Returns:
         str: The name of the user.
     """
-    response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}")
+    employee_id = argv[1]
+    response = get(url=f"{DATA_ENDPOINT}/users/{employee_id}")
     data = response.json()
     user_name = data.get('name')
     return user_name
@@ -37,7 +37,8 @@ def get_todos():
     Prints:
         str: The number of completed tasks and their titles.
     """
-    response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}/todos")
+    employee_id = argv[1]
+    response = get(url=f"{DATA_ENDPOINT}/users/{employee_id}/todos")
     data = response.json()
 
     TOTAL_NUMBER_OF_TASKS = 0

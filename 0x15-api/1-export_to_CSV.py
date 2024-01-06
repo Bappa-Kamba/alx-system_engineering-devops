@@ -13,7 +13,6 @@ from requests import get
 from sys import argv
 
 DATA_ENDPOINT = "https://jsonplaceholder.typicode.com"
-EMPLOYEE_ID = argv[1] if argv[1] else ""
 TASK_TITLES = []
 
 
@@ -24,7 +23,8 @@ def get_username():
     Returns:
         str: The username of the employee.
     """
-    response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}")
+    employee_id = argv[1]
+    response = get(url=f"{DATA_ENDPOINT}/users/{employee_id}")
     data = response.json()
     username = data.get('username')
     return username
@@ -35,13 +35,14 @@ def get_todos():
     Query the API endpoint for the employee's TODO list and
     export it to a CSV file.
     """
-    response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}/todos")
+    employee_id = argv[1]
+    response = get(url=f"{DATA_ENDPOINT}/users/{employee_id}/todos")
     data = response.json()
     username = get_username()
     for todo in data:
-        TASK_TITLES.append([EMPLOYEE_ID, username,
+        TASK_TITLES.append([employee_id, username,
                             todo.get('completed'), todo.get('title')])
-    with open(f"{EMPLOYEE_ID}.csv", 'w') as csvfile:
+    with open(f"{employee_id}.csv", 'w') as csvfile:
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         writer.writerows(TASK_TITLES)
 

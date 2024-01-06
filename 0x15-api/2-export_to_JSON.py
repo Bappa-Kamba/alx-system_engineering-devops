@@ -17,7 +17,6 @@ from requests import get
 from sys import argv
 
 DATA_ENDPOINT = "https://jsonplaceholder.typicode.com"
-EMPLOYEE_ID = argv[1] if argv[1] else ""
 TASK_TITLES = []
 
 
@@ -28,7 +27,8 @@ def get_username():
     Returns:
         str: The username of the employee.
     """
-    response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}")
+    employee_id = argv[1]
+    response = get(url=f"{DATA_ENDPOINT}/users/{employee_id}")
     data = response.json()
     username = data.get('username')
     return username
@@ -39,15 +39,16 @@ def get_todos():
     Queries the API to get the employee's todo list and exports
     it to a JSON file.
     """
-    response = get(url=f"{DATA_ENDPOINT}/users/{EMPLOYEE_ID}/todos")
+    employee_id = argv[1]
+    response = get(url=f"{DATA_ENDPOINT}/users/{employee_id}/todos")
     data = response.json()
     username = get_username()
     for todo in data:
         TASK_TITLES.append({"task": todo.get('title'),
                             "completed": todo.get('completed'),
                             "username": username})
-    with open(f"{EMPLOYEE_ID}.json", 'w') as jsonfile:
-        json.dump({EMPLOYEE_ID: TASK_TITLES}, jsonfile)
+    with open(f"{employee_id}.json", 'w') as jsonfile:
+        json.dump({employee_id: TASK_TITLES}, jsonfile)
 
 
 if __name__ == "__main__":
