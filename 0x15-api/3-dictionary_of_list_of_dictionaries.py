@@ -36,7 +36,7 @@ def get_users():
     for user in data:
         id = user['id']
         username = user['username']
-        TASKS[f"{id}"] =  get_todos(id, username)
+        TASKS[f"{id}"] = get_todos(id, username)
         TASK_TITLES = []
 
 
@@ -64,7 +64,6 @@ def get_todos(id, username):
                             "completed": todo['completed']
                             })
     return TASK_TITLES
-        
 
 
 if __name__ == "__main__":

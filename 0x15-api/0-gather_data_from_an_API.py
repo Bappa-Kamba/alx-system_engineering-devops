@@ -2,7 +2,8 @@
 """
 This script gathers TODO's of an employee using employee ID.
 
-The script retrieves the details of a user and their TODO list from an API endpoint.
+The script retrieves the details of a user and their TODO list
+from an API endpoint.
 It then prints the number of completed tasks and the titles of those tasks.
 
 Usage: python3 0-gather_data_from_an_API.py [employee_id]
@@ -44,7 +45,7 @@ def get_todos():
     NUMBER_OF_DONE_TASKS = 0
     for todo in data:
         TOTAL_NUMBER_OF_TASKS += 1
-        if todo['completed'] == True:
+        if todo['completed']:
             NUMBER_OF_DONE_TASKS += 1
             TASK_TITLES.append(todo['title'])
     print(
