@@ -8,7 +8,6 @@ The employee ID is provided as a command-line argument.
 
 Usage: python3 1-export_to_CSV.py <employee_id>
 """
-
 import csv
 from requests import get
 from sys import argv

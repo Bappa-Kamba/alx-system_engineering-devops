@@ -12,7 +12,6 @@ employee ID and writes the todo list data to it.
 
 Usage: python3 2-export_to_JSON.py [employee_id]
 """
-
 import json
 from requests import get
 from sys import argv

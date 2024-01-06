@@ -8,7 +8,6 @@ It then prints the number of completed tasks and the titles of those tasks.
 
 Usage: python3 0-gather_data_from_an_API.py [employee_id]
 """
-
 from requests import get
 from sys import argv
 
