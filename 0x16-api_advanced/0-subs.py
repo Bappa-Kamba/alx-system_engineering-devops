@@ -19,6 +19,8 @@ def number_of_subscribers(subreddit):
     headers.update({'User-Agent': 'My User Agent 1.0'})
 
     r = requests.get(url, headers=headers).json()
+    if "r/" not in subreddit:
+        return 0
     subscribers = r.get('data', {}).get('subscribers')
     if not subscribers:
         return 0
