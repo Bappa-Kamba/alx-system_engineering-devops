@@ -1,36 +1,59 @@
-#!/usr/bin/python3
+##!/usr/bin/python3
 """
-Query Reddit API recursively for all hot articles of a given subreddit
+    Script
 """
 import requests
 
 
-def recurse(subreddit, hot_list=[], after="tmp"):
+def recurse(subreddit, hot_list=None, after="tmp"):
     """
-        return all hot articles for a given subreddit
-        return None if invalid subreddit given
+    Return all hot articles for a given subreddit.
+    Return None if an invalid subreddit is given.
     """
-    # get user agent
-    # https://stackoverflow.com/questions/10606133/ -->
-    # sending-user-agent-using-requests-library-in-python
-    headers = requests.utils.default_headers()
-    headers.update({'User-Agent': 'My User Agent 1.0'})
+    if hot_list is None:
+        hot_list = []
 
-    # update url each recursive call with param "after"
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    # Set a custom User-Agent to avoid Too Many Requests issues
+    headers = {'User-Agent': 'My User Agent 1.0'}
+
+    # Update URL with 'after' parameter if available
+    url = f'https://www.reddit.com/r/{subreddit}/hot.json'
     if after != "tmp":
-        url = url + "?after={}".format(after)
-    r = requests.get(url, headers=headers, allow_redirects=False)
+        url += f'?after={after}'
 
-    # append top titles to hot_list
-    results = r.json().get('data', {}).get('children', [])
-    if not results:
-        return hot_list
-    for e in results:
-        hot_list.append(e.get('data').get('title'))
+    try:
+        # Make a GET request to the Reddit API
+        response = requests.get(url, headers=headers, allow_redirects=False)
 
-    # get next param "after" else nothing else to recurse
-    after = r.json().get('data').get('after')
-    if not after:
-        return hot_list
-    return (recurse(subreddit, hot_list, after))
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse the JSON response
+            data = response.json().get('data', {})
+            children = data.get('children', [])
+
+            # Append titles to the hot_list
+            for child in children:
+                title = child.get('data', {}).get('title')
+                if title:
+                    hot_list.append(title)
+
+            # Recursive call with the next page's 'after' parameter
+            after = data.get('after')
+            if after:
+                recurse(subreddit, hot_list, after)
+            else:
+                # If there are no more pages, return the accumulated hot_list
+                return hot_list
+        elif response.status_code == 404:
+            # Subreddit not found, return None
+            return None
+        else:
+            # Handle other errors
+            print(f"Error: {response.status_code}")
+            return None
+
+    except Exception as e:
+        # Handle exceptions
+        print(f"Exception: {e}")
+        return None
+

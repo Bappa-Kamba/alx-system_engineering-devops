@@ -1,39 +1,25 @@
 #!/usr/bin/python3
 """
-    Script to check subscriber count of a given subreddit.
+Query Reddit API for number of subscribers for a given subreddit
 """
 import requests
 
+
 def number_of_subscribers(subreddit):
     """
-        Function to get count of subscribers in a given subreddit.
+        return number of subscribers for a given subreddit
+        return 0 if invalid subreddit given
     """
-    # Set a custom User-Agent to avoid Too Many Requests issues
-    headers = {'User-Agent': 'webapp:localhost:/api/v1 (by /u/bappa)'}
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
 
-    # Reddit API endpoint for getting subreddit information
-    url = f'https://www.reddit.com/r/{subreddit}/about.json'
+    # get user agent
+    # https://stackoverflow.com/questions/10606133/ -->
+    # sending-user-agent-using-requests-library-in-python
+    headers = requests.utils.default_headers()
+    headers.update({'User-Agent': 'My User Agent 1.0'})
 
-    try:
-        # Make a GET request to the Reddit API
-        response = requests.get(url, headers=headers)
-
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            # Parse the JSON response
-            subreddit_data = response.json()
-
-            # Extract and return the number of subscribers
-            return subreddit_data['data']['subscribers']
-        elif response.status_code == 404:
-            # Subreddit not found, return 0
-            return 0
-        else:
-            # Handle other errors
-            print(f"Error: {response.status_code}")
-            return 0
-
-    except Exception as e:
-        # Handle exceptions
-        print(f"Exception: {e}")
+    r = requests.get(url, headers=headers).json()
+    subscribers = r.get('data', {}).get('subscribers')
+    if not subscribers:
         return 0
+    return subscribers
