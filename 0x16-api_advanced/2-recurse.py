@@ -49,7 +49,7 @@ def recurse(subreddit, hot_list=None, after="tmp"):
             return None
         else:
             # Handle other errors
-            print(f"Error: {response.status_code}\nHello")
+            print(f"Error: {response.status_code}")
             return None
 
     except Exception as e:
