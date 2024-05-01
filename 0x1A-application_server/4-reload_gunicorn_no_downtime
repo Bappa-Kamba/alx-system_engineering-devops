@@ -8,7 +8,7 @@ PID_FILE="/home/ubuntu/gunicorn.pid"
 # Check if the PID file exists
 if [ -f "$PID_FILE" ]; then
     # Send a HUP signal to the Gunicorn master process to gracefully reload
-    $GUNICORN_PATH --reload `$(cat "$PID_FILE")`
+    "$GUNICORN_PATH" --reload "$(cat "$PID_FILE")"
     echo "Gunicorn reloaded gracefully."
 else
     echo "Gunicorn is not running or PID file not found."
