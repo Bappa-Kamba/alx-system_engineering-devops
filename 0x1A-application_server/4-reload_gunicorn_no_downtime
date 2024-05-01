@@ -3,7 +3,7 @@
 GUNICORN_PATH="/home/ubuntu/.local/bin/gunicorn"
 
 # Define the path to the Gunicorn PID file
-PID_FILE="/home/ubuntu/gunicorn.pid"
+PID_FILE="/var/run/gunicorn.pid"
 
 # Check if the PID file exists
 if [ -f "$PID_FILE" ]; then
