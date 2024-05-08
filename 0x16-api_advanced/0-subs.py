@@ -18,7 +18,7 @@ def number_of_subscribers(subreddit):
     headers = requests.utils.default_headers()
     headers.update({'User-Agent': 'My User Agent 1.0'})
 
-    r = requests.get(url, headers=headers)
+    r = requests.get(url, headers=headers, allow_redirects=False)
     subscribers = r.json().get('data', {}).get('subscribers')
     if not subscribers or r.raise_for_status():
         return 0
