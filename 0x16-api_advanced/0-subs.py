@@ -20,6 +20,6 @@ def number_of_subscribers(subreddit):
 
     r = requests.get(url, headers=headers)
     subscribers = r.json().get('data', {}).get('subscribers')
-    if not subscribers or raise_for_status():
+    if not subscribers or r.raise_for_status():
         return 0
     return subscribers
