@@ -13,13 +13,15 @@ def top_ten(subreddit):
     # get user agent
     # https://stackoverflow.com/questions/10606133/ -->
     # sending-user-agent-using-requests-library-in-python
-    headers = requests.utils.default_headers()
-    headers.update({'User-Agent': 'My User Agent 1.0'})
+    headers = {'User-Agent': 'My User Agent 1.0'}
 
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
-    r = requests.get(url, headers=headers).json()
-    top_ten = r.get('data', {}).get('children', [])
+    r = requests.get(url, headers=headers)
+    
+    top_ten = r.json().get('data', {}).get('children', [])
+
     if not top_ten:
-        print(None)
+        print("None")
     for t in top_ten:
         print(t.get('data').get('title'))
+
