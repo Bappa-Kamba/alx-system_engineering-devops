@@ -15,7 +15,7 @@ def top_ten(subreddit):
     # sending-user-agent-using-requests-library-in-python
     headers = {'User-Agent': 'My User Agent 1.0'}
 
-    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
+    url = "https://www.reddit.com/r/{}/hot?limit=10".format(subreddit)
     r = requests.get(url, headers=headers, allow_redirects=False)
     if r.status_code == 200:
         top_ten = r.json().get('data', {}).get('children', [])
