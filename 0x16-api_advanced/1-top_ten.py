@@ -17,9 +17,9 @@ def top_ten(subreddit):
 
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
     r = requests.get(url, headers=headers, allow_redirects=False)
-    top_ten = r.json().get('data', {}).get('children', [])
-
-    if not top_ten:
-        print("None")
-    for t in top_ten:
-        print(t.get('data').get('title'))
+    if r.status_code == 200:
+        top_ten = r.json().get('data', {}).get('children', [])
+        if not top_ten:
+            print("None")
+        for t in top_ten:
+            print(t.get('data').get('title'))
